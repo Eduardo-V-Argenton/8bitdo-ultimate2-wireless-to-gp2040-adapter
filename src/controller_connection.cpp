@@ -4,6 +4,7 @@
 #include <BLEDevice.h>
 #include "8bitdo_ultimate2_wireless_map.hpp"
 #include "controller_connection.hpp"
+#include "debug.hpp"
 
 BLEScan* scan = nullptr;
 bool controller_found = false;
@@ -28,7 +29,7 @@ class ScanCallbacks : public BLEAdvertisedDeviceCallbacks {
 
       if(name == "8BitDo Ultimate 2 Wireless")
       {
-        Serial.println("8BitDo Ultimate 2 Wireless found");
+        DEBUG_PRINTLN("8BitDo Ultimate 2 Wireless found");
         controller_found = true;
         controller = new BLEAdvertisedDevice(device);
 
@@ -50,7 +51,7 @@ void set_ble_find_controller()
 
   if(!controller_found)
   {
-    Serial.println("Controller not found. Restarting in 3s");
+    DEBUG_PRINTLN("Controller not found. Restarting in 3s");
     sleep(3);
     ESP.restart();
   }
@@ -62,11 +63,11 @@ void connect_controller()
 
   if (client->connect(controller)) 
   {
-    Serial.println("Connected");
+    DEBUG_PRINTLN("Connected");
   }
   else 
   {
-    Serial.println("Failed to connect. Restaring in 3s");
+    DEBUG_PRINTLN("Failed to connect. Restaring in 3s");
     sleep(3);
     ESP.restart();
   }
@@ -74,7 +75,7 @@ void connect_controller()
   BLEUUID hidUUID((uint16_t)0x1812);
   BLERemoteService* hidService = client->getService(hidUUID);
   if(hidService == nullptr) {
-    Serial.println("ERROR: HID service not found");
+    DEBUG_PRINTLN("ERROR: HID service not found");
     return;
   } 
 

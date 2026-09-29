@@ -7,7 +7,7 @@ void setup_virtual_buttons()
     size_t count = sizeof(buttonPins) / sizeof(buttonPins[0]);
     for (size_t i = 0; i < count; i++) {
         pinMode(buttonPins[i], OUTPUT_OPEN_DRAIN);
-        digitalWrite(buttonPins[i], HIGH); // botão solto
+        digitalWrite(buttonPins[i], HIGH);
     }
 }
 

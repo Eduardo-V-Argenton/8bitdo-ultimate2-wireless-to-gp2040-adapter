@@ -4,35 +4,35 @@
 
 struct GamepadState
 {
-    bool a; // 0
-    bool b; // 1
-    bool x; // 2
-    bool y; // 3
+    bool a;
+    bool b;
+    bool x;
+    bool y;
 
-    bool dup; // 4
-    bool ddown; // 5
-    bool dleft; // 6
-    bool dright; // 7
+    bool dup;
+    bool ddown;
+    bool dleft;
+    bool dright;
     
-    bool lb; // 8
-    bool rb; // 9
+    bool lb;
+    bool rb;
 
-    bool lt_b; // 10
-    bool rt_b; // 11
+    bool lt_b;
+    bool rt_b;
 
-    uint8_t lt; // 21
-    uint8_t rt; // 22
+    uint8_t lt;
+    uint8_t rt;
 
-    bool share; // 12
-    bool options; // 13
-    bool ps; // 14
-    bool lap; // Left Analog Stick Pressed  | 15
-    bool rap; // Right Analog Stick Pressed | 16 
+    bool share;
+    bool options;
+    bool ps;
+    bool lap; // Left Analog Stick Pressed
+    bool rap; // Right Analog Stick Pressed
 
-    uint8_t lax; // 17
-    uint8_t lay; // 18
-    uint8_t rax; // 19
-    uint8_t ray; // 20
+    uint8_t lax;
+    uint8_t lay;
+    uint8_t rax;
+    uint8_t ray;
 };
 
 void map_gamepad(GamepadState& gamepad, uint8_t* report);

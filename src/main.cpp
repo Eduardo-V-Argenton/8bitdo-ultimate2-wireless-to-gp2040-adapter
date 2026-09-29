@@ -2,17 +2,14 @@
 #include <BLEDevice.h>
 #include "controller_connection.hpp"
 #include "pin_mapping.hpp"
+#include "debug.hpp"
 
 void setup() {
-  Serial.begin(115200);
-
+  DEBUG_BEGIN(115200);
 
   BLEDevice::init("ESP32");
-  
   set_ble_find_controller();
-
   connect_controller();
-
   setup_virtual_buttons();
 }
 

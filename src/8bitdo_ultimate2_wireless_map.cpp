@@ -1,5 +1,6 @@
 #include <Arduino.h>
 #include "8bitdo_ultimate2_wireless_map.hpp"
+#include "debug.hpp"
 
 void map_gamepad(GamepadState& gamepad, uint8_t* report)
 {
@@ -39,28 +40,28 @@ void map_gamepad(GamepadState& gamepad, uint8_t* report)
 
 void test_bool_buttons(GamepadState& gamepad)
 {
-    if(gamepad.a){Serial.println("A");}
-    if(gamepad.b){Serial.println("B");}
-    if(gamepad.x){Serial.println("X");}
-    if(gamepad.y){Serial.println("Y");}
-    if(gamepad.lb){Serial.println("LB");}
-    if(gamepad.rb){Serial.println("RB");}
-    if(gamepad.lt_b){Serial.println("LT");}
-    if(gamepad.rt_b){Serial.println("RT");}
-    if(gamepad.share){Serial.println("SHARE");}
-    if(gamepad.options){Serial.println("OPTIONS");}
-    if(gamepad.ps){Serial.println("PS");}
-    if(gamepad.rap){Serial.println("RAP");}
-    if(gamepad.lap){Serial.println("LAP");}
-    if(gamepad.dup){Serial.println("UP");}
-    if(gamepad.ddown){Serial.println("DOWN");}
-    if(gamepad.dleft){Serial.println("LEFT");}
-    if(gamepad.dright){Serial.println("RIGHT");}
+    if(gamepad.a){DEBUG_PRINTLN("A");}
+    if(gamepad.b){DEBUG_PRINTLN("B");}
+    if(gamepad.x){DEBUG_PRINTLN("X");}
+    if(gamepad.y){DEBUG_PRINTLN("Y");}
+    if(gamepad.lb){DEBUG_PRINTLN("LB");}
+    if(gamepad.rb){DEBUG_PRINTLN("RB");}
+    if(gamepad.lt_b){DEBUG_PRINTLN("LT");}
+    if(gamepad.rt_b){DEBUG_PRINTLN("RT");}
+    if(gamepad.share){DEBUG_PRINTLN("SHARE");}
+    if(gamepad.options){DEBUG_PRINTLN("OPTIONS");}
+    if(gamepad.ps){DEBUG_PRINTLN("PS");}
+    if(gamepad.rap){DEBUG_PRINTLN("RAP");}
+    if(gamepad.lap){DEBUG_PRINTLN("LAP");}
+    if(gamepad.dup){DEBUG_PRINTLN("UP");}
+    if(gamepad.ddown){DEBUG_PRINTLN("DOWN");}
+    if(gamepad.dleft){DEBUG_PRINTLN("LEFT");}
+    if(gamepad.dright){DEBUG_PRINTLN("RIGHT");}
 }
 
 void test_sticks(GamepadState& gamepad)
 {
-    Serial.printf("LX:%3u LY:%3u RX:%3u RY:%3u\n",
+    DEBUG_PRINTF("LX:%3u LY:%3u RX:%3u RY:%3u\n",
         gamepad.lax,
         gamepad.lay,
         gamepad.rax,
@@ -70,7 +71,7 @@ void test_sticks(GamepadState& gamepad)
 
 void test_triggers(GamepadState& gamepad)
 {
-    Serial.printf("RT:%d LT:%d\n",
+    DEBUG_PRINTF("RT:%d LT:%d\n",
         gamepad.rt,
         gamepad.lt
     );

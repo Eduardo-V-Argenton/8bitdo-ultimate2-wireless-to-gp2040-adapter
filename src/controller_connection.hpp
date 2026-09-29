@@ -8,5 +8,4 @@ extern uint8_t report[33];
 extern bool newReport;
 
 void set_ble_find_controller();
-
 void connect_controller();
