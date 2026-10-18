@@ -9,6 +9,19 @@ void setup_virtual_buttons()
         pinMode(buttonPins[i], OUTPUT_OPEN_DRAIN);
         digitalWrite(buttonPins[i], HIGH);
     }
+
+    ledcSetup(0, 20000, 8);
+    ledcAttachPin(PIN_RX, 0);
+
+    ledcSetup(1, 20000, 8);
+    ledcAttachPin(PIN_RY, 1);
+    
+    
+    ledcSetup(2, 20000, 8);
+    ledcAttachPin(PIN_LX, 2);
+
+    ledcSetup(3, 20000, 8);
+    ledcAttachPin(PIN_LY, 3);
 }
 
 void set_virtual_button(uint8_t pin, bool pressed)
@@ -16,7 +29,7 @@ void set_virtual_button(uint8_t pin, bool pressed)
     digitalWrite(pin, pressed ? LOW : HIGH);
 }
 
-void updateButtonsState(GamepadState& gamepad)
+void updateControllerState(GamepadState& gamepad)
 {
     set_virtual_button(PIN_A, gamepad.a);
     set_virtual_button(PIN_B, gamepad.b);
@@ -40,4 +53,9 @@ void updateButtonsState(GamepadState& gamepad)
 
     set_virtual_button(PIN_L3, gamepad.lap);
     set_virtual_button(PIN_R3, gamepad.rap);
+    ledcWrite(2, gamepad.lax);
+    ledcWrite(3, gamepad.lay);
+
+    ledcWrite(0, gamepad.rax);
+    ledcWrite(1, gamepad.ray);
 }

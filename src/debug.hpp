@@ -14,7 +14,7 @@
 #else
 
 #define DEBUG_BEGIN(baud)
-#define DEBUG_PRINTF(x)
+#define DEBUG_PRINT(x)
 #define DEBUG_PRINTLN(x)
 #define DEBUG_PRINTF(...)
 

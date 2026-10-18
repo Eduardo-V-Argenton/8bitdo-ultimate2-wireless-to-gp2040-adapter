@@ -5,6 +5,15 @@
 #include "debug.hpp"
 
 void setup() {
+  pinMode(2, OUTPUT);
+
+  for (int i = 0; i < 5; i++) 
+  {
+    digitalWrite(2, HIGH);
+    delay(200);
+    digitalWrite(2, LOW);
+    delay(200);
+  }
   DEBUG_BEGIN(115200);
 
   BLEDevice::init("ESP32");
@@ -18,6 +27,6 @@ void loop() {
   {
     newReport = false;
     map_gamepad(gamepad, report);
-    updateButtonsState(gamepad);
+    updateControllerState(gamepad);
   }
 }
