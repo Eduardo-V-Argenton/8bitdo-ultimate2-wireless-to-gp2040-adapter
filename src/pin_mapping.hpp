@@ -59,5 +59,12 @@ constexpr uint8_t stickPins[] = {
     PIN_LY
 };
 
+// 80 MHz / 2^8 = 312.5 kHz is the LEDC limit at 8 bits. 78.125 kHz cuts the
+// ripple after the 10k/100nF filter to a quarter of what 20 kHz gives.
+constexpr uint32_t STICK_PWM_FREQ = 78125;
+constexpr uint8_t  STICK_PWM_BITS = 8;
+constexpr uint8_t  STICK_CENTER   = 128;
+
 void setup_virtual_buttons();
+void release_all_buttons();
 void updateControllerState(GamepadState& gamepad);

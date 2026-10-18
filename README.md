@@ -6,7 +6,7 @@ The project uses:
 
 - **ESP32** to connect to the controller via Bluetooth LE.
 - **RP2040 / Raspberry Pi Pico** running GP2040-CE.
-- **UART** for communication between the ESP32 and RP2040.
+- **GPIO + PWM** between the ESP32 and RP2040: each button is an open-drain output that pulls the RP2040 input low, and each stick axis is a PWM signal filtered by an RC (10k / 100nF) into an RP2040 ADC.
 
 ## Architecture
 
@@ -17,7 +17,7 @@ The project uses:
           │
         ESP32
           │
-         UART
+     GPIO + PWM
           │
         RP2040
        GP2040-CE
@@ -39,7 +39,8 @@ Currently implemented:
 - D-Pad
 - Analog sticks
 - Triggers
-- UART communication
+- GPIO/PWM output to the RP2040
+- Release of all inputs when the controller disconnects
 
 ## Hardware
 

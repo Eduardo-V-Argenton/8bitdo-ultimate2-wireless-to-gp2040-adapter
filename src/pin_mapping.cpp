@@ -10,18 +10,30 @@ void setup_virtual_buttons()
         digitalWrite(buttonPins[i], HIGH);
     }
 
-    ledcSetup(0, 20000, 8);
+    ledcSetup(0, STICK_PWM_FREQ, STICK_PWM_BITS);
     ledcAttachPin(PIN_RX, 0);
 
-    ledcSetup(1, 20000, 8);
+    ledcSetup(1, STICK_PWM_FREQ, STICK_PWM_BITS);
     ledcAttachPin(PIN_RY, 1);
     
     
-    ledcSetup(2, 20000, 8);
+    ledcSetup(2, STICK_PWM_FREQ, STICK_PWM_BITS);
     ledcAttachPin(PIN_LX, 2);
 
-    ledcSetup(3, 20000, 8);
+    ledcSetup(3, STICK_PWM_FREQ, STICK_PWM_BITS);
     ledcAttachPin(PIN_LY, 3);
+}
+
+void release_all_buttons()
+{
+    size_t count = sizeof(buttonPins) / sizeof(buttonPins[0]);
+    for (size_t i = 0; i < count; i++) {
+        digitalWrite(buttonPins[i], HIGH);
+    }
+
+    for (uint8_t channel = 0; channel < 4; channel++) {
+        ledcWrite(channel, STICK_CENTER);
+    }
 }
 
 void set_virtual_button(uint8_t pin, bool pressed)

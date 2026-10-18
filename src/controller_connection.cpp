@@ -6,20 +6,61 @@
 #include "controller_connection.hpp"
 #include "debug.hpp"
 
-BLEScan* scan = nullptr;
 bool controller_found = false;
 BLEAdvertisedDevice*controller = nullptr;
 BLEClient* client = nullptr;
 GamepadState gamepad;
-uint8_t report[33];
-bool newReport;
+volatile bool controller_disconnected = false;
+
+// The notify callback runs in the BLE task, loop() runs in the Arduino task.
+static uint8_t report[REPORT_SIZE];
+static bool newReport = false;
+static portMUX_TYPE reportMux = portMUX_INITIALIZER_UNLOCKED;
 
 void notifyCallback(BLERemoteCharacteristic* characteristic, uint8_t* data,
                     size_t length, bool isNotify) 
 {
+  // Ignore reports too short to be the gamepad report.
+  if(length < REPORT_MIN_SIZE)
+  {
+    return;
+  }
+  if(length > REPORT_SIZE)
+  {
+    length = REPORT_SIZE;
+  }
+
+  portENTER_CRITICAL(&reportMux);
+  memset(report, 0, REPORT_SIZE);
   memcpy(report, data, length);
   newReport = true;
+  portEXIT_CRITICAL(&reportMux);
 }
+
+bool take_report(uint8_t* out)
+{
+  bool has_report = false;
+
+  portENTER_CRITICAL(&reportMux);
+  if(newReport)
+  {
+    memcpy(out, report, REPORT_SIZE);
+    newReport = false;
+    has_report = true;
+  }
+  portEXIT_CRITICAL(&reportMux);
+
+  return has_report;
+}
+
+class ClientCallbacks : public BLEClientCallbacks {
+  void onConnect(BLEClient* client) override {}
+
+  void onDisconnect(BLEClient* client) override
+  {
+    controller_disconnected = true;
+  }
+};
 
 class ScanCallbacks : public BLEAdvertisedDeviceCallbacks {
   void onResult(BLEAdvertisedDevice device) override 
@@ -60,6 +101,7 @@ void set_ble_find_controller()
 void connect_controller()
 {
   client = BLEDevice::createClient();
+  client->setClientCallbacks(new ClientCallbacks());
 
   if (client->connect(controller)) 
   {
@@ -75,8 +117,9 @@ void connect_controller()
   BLEUUID hidUUID((uint16_t)0x1812);
   BLERemoteService* hidService = client->getService(hidUUID);
   if(hidService == nullptr) {
-    DEBUG_PRINTLN("ERROR: HID service not found");
-    return;
+    DEBUG_PRINTLN("ERROR: HID service not found. Restarting in 3s");
+    sleep(3);
+    ESP.restart();
   } 
 
   auto* characteristics = hidService->getCharacteristicsByHandle();
