@@ -36,6 +36,21 @@ void release_all_buttons()
     }
 }
 
+// Maps a report axis onto the PWM duty the RP2040 ADC needs, scaling each
+// side of the center separately so rest lands on the ADC midpoint.
+static uint8_t stick_to_pwm(uint8_t value)
+{
+    int32_t out;
+    if (value >= STICK_IN_CENTER) {
+        out = STICK_CENTER + (int32_t)(value - STICK_IN_CENTER) * (STICK_OUT_MAX - STICK_CENTER)
+                             / (STICK_IN_MAX - STICK_IN_CENTER);
+    } else {
+        out = STICK_CENTER - (int32_t)(STICK_IN_CENTER - value) * (STICK_CENTER - STICK_OUT_MIN)
+                             / (STICK_IN_CENTER - STICK_IN_MIN);
+    }
+    return (uint8_t)constrain(out, (int32_t)STICK_OUT_MIN, (int32_t)STICK_OUT_MAX);
+}
+
 void set_virtual_button(uint8_t pin, bool pressed)
 {
     digitalWrite(pin, pressed ? LOW : HIGH);
@@ -65,9 +80,9 @@ void updateControllerState(GamepadState& gamepad)
 
     set_virtual_button(PIN_L3, gamepad.lap);
     set_virtual_button(PIN_R3, gamepad.rap);
-    ledcWrite(2, gamepad.lax);
-    ledcWrite(3, gamepad.lay);
+    ledcWrite(2, stick_to_pwm(gamepad.lax));
+    ledcWrite(3, stick_to_pwm(gamepad.lay));
 
-    ledcWrite(0, gamepad.rax);
-    ledcWrite(1, gamepad.ray);
+    ledcWrite(0, stick_to_pwm(gamepad.rax));
+    ledcWrite(1, stick_to_pwm(gamepad.ray));
 }

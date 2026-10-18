@@ -63,7 +63,20 @@ constexpr uint8_t stickPins[] = {
 // ripple after the 10k/100nF filter to a quarter of what 20 kHz gives.
 constexpr uint32_t STICK_PWM_FREQ = 78125;
 constexpr uint8_t  STICK_PWM_BITS = 8;
-constexpr uint8_t  STICK_CENTER   = 128;
+
+// Measured on the board: the 8BitDo axes swing 0.16V / 1.70V / 3.31V
+// (min / rest / max) at the ESP32 output, i.e. about 12 / 131 / 255 in
+// report units.
+constexpr uint8_t  STICK_IN_MIN    = 12;
+constexpr uint8_t  STICK_IN_CENTER = 131;
+constexpr uint8_t  STICK_IN_MAX    = 255;
+
+// The RP2040 ADC on this board reads full scale at about 3.03V, not 3.3V
+// (1.70V read as +0.12). Center the output on that range and overshoot a
+// little at the ends so both directions reach full deflection.
+constexpr uint8_t  STICK_CENTER    = 117;  // ~1.51V, half of the ADC range
+constexpr uint8_t  STICK_OUT_MIN   = 0;
+constexpr uint8_t  STICK_OUT_MAX   = 240;  // ~3.11V, past ADC full scale
 
 void setup_virtual_buttons();
 void release_all_buttons();
