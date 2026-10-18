@@ -1,0 +1,111 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 470" width="1000" height="470" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">
+  <title>8BitDo Ultimate 2 Wireless to GP2040-CE adapter architecture</title>
+  <style>
+    .bg { fill: #ffffff; }
+    .box { fill: #f6f8fa; stroke: #d0d7de; stroke-width: 1.5; }
+    .ctrl { fill: #fff4e5; stroke: #f0a73a; }
+    .esp { fill: #e8f1ff; stroke: #3b82f6; }
+    .pico { fill: #ecfdf3; stroke: #22a06b; }
+    .host { fill: #f3eefe; stroke: #8b5cf6; }
+    .pwr { fill: #fdf2f2; stroke: #e5484d; stroke-dasharray: 5 4; }
+    .title { fill: #1f2328; font-size: 17px; font-weight: 650; }
+    .sub { fill: #57606a; font-size: 12.5px; }
+    .tag { fill: #57606a; font-size: 12px; font-weight: 600; letter-spacing: .04em; }
+    .link { stroke: #57606a; stroke-width: 2; fill: none; }
+    .bus { stroke: #57606a; stroke-width: 6; fill: none; stroke-linecap: round; opacity: .18; }
+    .lbl { fill: #1f2328; font-size: 12.5px; font-weight: 600; }
+    .lblbg { fill: #ffffff; }
+    .arrow { fill: #57606a; }
+    .pwrtxt { fill: #b42318; font-size: 12.5px; }
+    @media (prefers-color-scheme: dark) {
+      .bg { fill: #0d1117; }
+      .box { fill: #161b22; stroke: #30363d; }
+      .ctrl { fill: #2b1d0a; stroke: #d29922; }
+      .esp { fill: #0c1d36; stroke: #58a6ff; }
+      .pico { fill: #0b2a1c; stroke: #3fb950; }
+      .host { fill: #1f1636; stroke: #a371f7; }
+      .pwr { fill: #2a1214; stroke: #f85149; }
+      .title, .lbl { fill: #e6edf3; }
+      .sub, .tag { fill: #8b949e; }
+      .link { stroke: #8b949e; }
+      .bus { stroke: #8b949e; opacity: .25; }
+      .arrow { fill: #8b949e; }
+      .lblbg { fill: #0d1117; }
+      .pwrtxt { fill: #ff7b72; }
+    }
+  </style>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path class="arrow" d="M0 0 L10 5 L0 10 z"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" width="1000" height="470" rx="14"/>
+
+  <!-- Controller -->
+  <rect class="box ctrl" x="25" y="120" width="170" height="110" rx="12"/>
+  <text class="tag" x="110" y="146" text-anchor="middle">CONTROLLER</text>
+  <text class="title" x="110" y="174" text-anchor="middle">8BitDo Ultimate 2</text>
+  <text class="title" x="110" y="195" text-anchor="middle">Wireless</text>
+  <text class="sub" x="110" y="216" text-anchor="middle">BLE HID gamepad</text>
+
+  <!-- BLE link -->
+  <path class="link" d="M195 175 H242" stroke-dasharray="6 5" marker-end="url(#a)"/>
+  <rect class="lblbg" x="197" y="150" width="44" height="18" rx="4"/>
+  <text class="lbl" x="219" y="163" text-anchor="middle">BLE</text>
+
+  <!-- ESP32 -->
+  <rect class="box esp" x="245" y="105" width="180" height="140" rx="12"/>
+  <text class="tag" x="335" y="131" text-anchor="middle">BRIDGE</text>
+  <text class="title" x="335" y="158" text-anchor="middle">ESP32</text>
+  <text class="sub" x="335" y="178" text-anchor="middle">NodeMCU-32S</text>
+  <text class="sub" x="335" y="200" text-anchor="middle">reads the HID report,</text>
+  <text class="sub" x="335" y="218" text-anchor="middle">maps buttons and sticks</text>
+
+  <!-- Buttons bus -->
+  <path class="bus" d="M425 150 H655"/>
+  <path class="link" d="M425 150 H652" marker-end="url(#a)"/>
+  <text class="lbl" x="540" y="138" text-anchor="middle">17 buttons</text>
+  <text class="sub" x="540" y="170" text-anchor="middle">GPIO, active low</text>
+
+  <!-- Sticks bus -->
+  <path class="bus" d="M425 205 H655"/>
+  <path class="link" d="M425 205 H652" marker-end="url(#a)"/>
+  <text class="lbl" x="540" y="225" text-anchor="middle">4 stick axes</text>
+  <text class="sub" x="540" y="242" text-anchor="middle">PWM 78 kHz → RC 10k/100nF</text>
+
+  <!-- RP2040 -->
+  <rect class="box pico" x="655" y="105" width="180" height="140" rx="12"/>
+  <text class="tag" x="745" y="131" text-anchor="middle">GAMEPAD</text>
+  <text class="title" x="745" y="158" text-anchor="middle">RP2040</text>
+  <text class="sub" x="745" y="178" text-anchor="middle">GP2040-CE</text>
+  <text class="sub" x="745" y="200" text-anchor="middle">buttons on GPIO,</text>
+  <text class="sub" x="745" y="218" text-anchor="middle">sticks on ADC GP26–29</text>
+
+  <!-- USB to console -->
+  <path class="link" d="M835 175 H862" marker-end="url(#a)"/>
+  <rect class="lblbg" x="829" y="150" width="40" height="18" rx="4"/>
+  <text class="lbl" x="849" y="163" text-anchor="middle">USB</text>
+
+  <!-- Console -->
+  <rect class="box" x="865" y="135" width="110" height="80" rx="12"/>
+  <text class="title" x="920" y="171" text-anchor="middle">PS4</text>
+  <text class="sub" x="920" y="192" text-anchor="middle">or PC</text>
+
+  <!-- DS4 auth -->
+  <rect class="box host" x="655" y="320" width="180" height="96" rx="12"/>
+  <text class="tag" x="745" y="346" text-anchor="middle">PS4 AUTH</text>
+  <text class="title" x="745" y="372" text-anchor="middle">DualShock 4</text>
+  <text class="sub" x="745" y="394" text-anchor="middle">USB passthrough</text>
+  <path class="link" d="M745 320 V248" marker-end="url(#a)"/>
+  <rect class="lblbg" x="753" y="273" width="140" height="18" rx="4"/>
+  <text class="lbl" x="759" y="286">USB host · GP0 / GP1</text>
+
+  <!-- Power -->
+  <rect class="box pwr" x="25" y="320" width="585" height="96" rx="12"/>
+  <text class="tag" x="47" y="346">POWER</text>
+  <text class="pwrtxt" x="47" y="371">External 5 V → ESP32 VIN and DualShock 4 VBUS</text>
+  <text class="pwrtxt" x="47" y="391">RP2040 powered by the console USB · all grounds shared</text>
+
+  <text class="sub" x="25" y="447">Each button pulls an RP2040 input low; each stick axis is a PWM duty cycle that the RC filter turns into a voltage for the ADC.</text>
+</svg>
