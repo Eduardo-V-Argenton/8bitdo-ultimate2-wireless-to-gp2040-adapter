@@ -21,8 +21,6 @@ void setup() {
   status_led_show_reset_reason();
 
   BLEDevice::init("ESP32");
-  // Lower TX power to reduce the current spikes that can brown out a weak
-  // supply. The controller sits right next to the adapter.
   BLEDevice::setPower(ESP_PWR_LVL_N0, ESP_BLE_PWR_TYPE_DEFAULT);
   BLEDevice::setPower(ESP_PWR_LVL_N0, ESP_BLE_PWR_TYPE_SCAN);
   BLEDevice::setPower(ESP_PWR_LVL_N0, ESP_BLE_PWR_TYPE_ADV);
@@ -30,7 +28,6 @@ void setup() {
   set_ble_find_controller();
   connect_controller();
 
-  // Solid on: connected to the controller.
   status_led_set(true);
 }
 

@@ -36,8 +36,6 @@ void release_all_buttons()
     }
 }
 
-// Maps a report axis onto the PWM duty the RP2040 ADC needs, scaling each
-// side of the center separately so rest lands on the ADC midpoint.
 static uint8_t stick_to_pwm(uint8_t value)
 {
     int32_t out;
